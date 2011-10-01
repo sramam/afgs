@@ -1,6 +1,10 @@
 var seekBarInterval = null;
 var currentIndex = 0;
-var videos = [];
+var videos = [{
+    'videoid': 'wyx6JDQCslE',
+    'title' : 'Sexy and I Know It',
+    'thumbnail': 'http://i.ytimg.com/vi/wyx6JDQCslE/default.jpg',
+}];
 
 var DEFAULT_VIDEO_ID = 'Oi1BcouEmio';
 var URL_PREFIX = 'http://gdata.youtube.com/feeds/api/';
@@ -77,13 +81,14 @@ function onYouTubePlayerAPIReady() {
     }
   });
   
-  $('#previousThumbnail').click(function() {
+  /*$('#previousThumbnail').click(function() {
     playPreviousVideo(player);
   });
   
   $('#nextThumbnail').click(function() {
     playNextVideo(player);
   });
+  */
   
   $('#pause').click(function() {
     if ($(this).attr('disabled') == 'false') {
@@ -124,7 +129,7 @@ function onYouTubePlayerAPIReady() {
     return false;
   });
 }
-
+/*
 function playPreviousVideo(player) {
   currentIndex--;
   playCurrentVideo(player);
@@ -134,7 +139,7 @@ function playNextVideo(player) {
   currentIndex++;
   playCurrentVideo(player);
 }
-
+*/
 function playCurrentVideo(player) {
   if (seekBarInterval != null) {
     clearInterval(seekBarInterval);
@@ -149,7 +154,10 @@ function playCurrentVideo(player) {
     var previousVideo = videos[currentIndex - 1];
     var currentVideo = videos[currentIndex];
     var nextVideo = videos[currentIndex + 1];
-  
+ 
+    $('#previousThumbnail').hide();
+    $('#nextThumbnail').hide();
+    /* 
     if (previousVideo == null) {
       $('#previousThumbnail').hide();
     } else {
@@ -165,9 +173,10 @@ function playCurrentVideo(player) {
       $('#nextThumbnail').attr('src', nextVideo.thumbnail);
       $('#nextThumbnail').attr('title', nextVideo.title)
     }
-  
+    */
+
     if (currentVideo != null) {
-      $('#title').html(currentVideo.title);
+      $('#title').html(currentVideo.title + ' ' + currentVideo.videoid);
       player.loadVideoById(currentVideo.videoid);
       
       enable('play');
@@ -179,7 +188,8 @@ function playCurrentVideo(player) {
 }
 
 function onReady(event) {
-  enable('loadFeed');
+  //enable('loadFeed');
+  playCurrentVideo(player);
 }
 
 function onStateChange(event) {
@@ -201,7 +211,7 @@ function onStateChange(event) {
       enable('play');
       disable('pause', 'volume', 'seek');
       
-      playNextVideo(player);
+      //playNextVideo(player);
     break;
       
     case YT.PlayerState.PLAYING:
